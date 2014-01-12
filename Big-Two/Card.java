@@ -8,26 +8,33 @@ public class Card implements Comparable{
 	public Card(){
 		this(1,4);
 	}
+	public int power(){
+	/* Return the card's compartive power
+	   from 1-52. The Three of Diamonds
+	   would return 1 and the Two of Spades
+	   would return 52
+	*/
+	   int position = value;
+	   if (position <= 2){
+	   		position += 13;
+	   }
+	   position = (position - 2) * 4 - 4 + suit;
+	   return position;
+	}
 	public int compareTo(Object x){
-		Card card = (Card) x;
-		if (value == card.value){
-			if (suit == card.suit){
-				return 0;
-			}
-			else if (suit > card.suit){
-				return 1;
-			}
-			else{
-				return -1;
-			}
+		int ipower = ((Card) x).power();
+		if (power() > ipower){
+			return 1;
 		}
-		else {
-			if (value > card.value){
-				return 1;
-			}
-			else
-				return -1;
+		else if (power() < ipower){
+			return -1;
 		}
+		else{
+			return 0;
+		}
+	}
+	public int equals(Object x){
+		return value == ((Card)x).value;
 	}
 	public String toString(){
 		String s = "";
@@ -62,10 +69,12 @@ public class Card implements Comparable{
 		return s;
 	}
 	public static void main(String[] args){
-		Card a = new Card(13,4);
-		Card b = new Card(5,2);
+		Card a = new Card(3,1);
+		Card b = new Card(2,4);
 		System.out.println("Card a : " + a);
+		System.out.println("Card a position : " + a.power());
 		System.out.println("Card b : " + b);
+		System.out.println("Card b position : " + b.power());
 		System.out.println("Compare a to b : " + a.compareTo(b));
 	}
 }

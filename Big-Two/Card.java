@@ -39,8 +39,11 @@ public class Card implements Comparable{
 			return 0;
 		}
 	}
-	public int equals(Object x){
-		return value == ((Card)x).value;
+	public boolean equalV(Card x){
+		return value == x.value;
+	}
+	public boolean equalS(Card x){
+		return suit == x.suit;
 	}
 	public String toString(){
 		String s = "";

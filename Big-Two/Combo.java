@@ -1,5 +1,6 @@
 public class Combo {
 	private ArrayList<Card> combo;
+	
 	public static String identifier(ArrayList<Card> input){
 		if(input.size() == 0){
 			return "Invalid";
@@ -30,6 +31,7 @@ public class Combo {
 
 		}
 	} 
+	
 	private static boolean samesuit(ArrayList<Card> input){
 		boolean ret = true;
 		for(int x = 1;x<input.size();x++){
@@ -39,27 +41,44 @@ public class Combo {
 		}
 		return ret;
 	} 
+	
 	private static boolean samevalue(ArrayList<Card> input){
 		boolean ret = true;
 		for(int x = 1;x<input.size();x++){
 			if(!(input.get(x -1).equalV(input.get(x)))){
 				ret = false;
+				break;
 			}
 		}
 		return ret;
 	}
+	
 	private static boolean straight(ArrayList<Card> input){
 		boolean ret = false;
-		for(int x = 1;x < 13;x++){
-			int count = 0;
-			while(count != 5){
-				
-				count++;
+		if (input.size()==5)
+			for(int x = 1;x < 13;x++){
+				int count = 0;
+				while(count != 5){
+					
+					count++;
+				}
+	
 			}
-
-		}
 	}
-	private static boolean full
+	
+	private static boolean flush(ArrayList<Card> input) {
+		boolean ret = true;
+		if (input.size()==5) 
+			for (int i=1; i<input.size();i++) {
+				if (!(input.get(i-1).getS() == input.get(i).getS())) {
+					ret = false;
+					break;	
+				}
+			}
+		else 
+			ret = false;
+		return ret;
+	}
 
 
 }

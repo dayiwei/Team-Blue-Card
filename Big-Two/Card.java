@@ -21,6 +21,12 @@ public class Card implements Comparable{
 	   position = (position - 2) * 4 - 4 + suit;
 	   return position;
 	}
+	public int getV(){
+		return value;
+	}
+	public int getS(){
+		return suit;
+	}
 	public int compareTo(Object x){
 		int ipower = ((Card) x).power();
 		if (power() > ipower){

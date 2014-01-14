@@ -27,7 +27,16 @@ public class Combo {
 		else if (input.size() == 4){
 			return "Invalid";
 		}
-		else{
+		else 
+			if (straight(input) && flush(input))
+				return "Straight Flush";
+			else if (house(input))
+				return "Full House"
+			else if (straight(input))
+				return "Straight";
+			else if (flush(input))
+				return "Flush";
+		
 
 		}
 	} 
@@ -79,6 +88,27 @@ public class Combo {
 			ret = false;
 		return ret;
 	}
+	
+	private static boolean house(ArrayList<Card> input) {
+		boolean ret = false;
+		ArrayList value1 = new ArrayList();
+		ArrayList value2 = new ArrayList();
+		int v=input.get(0).getV();
+		value1.add(v);
+		for (int i=1;i<input.size();i++)
+			if (input.get(i).getV()==v)
+				value1.add(input.get(i));
+			else
+				value2.add(input.get(i));
+		if (value1.size()==2 && value2.size()==3)
+			if (value2.get(0)==value2.get(1) && value2.get(1)==value2.get(2))
+				ret = true;
+		else if (value1.size()==3 && value2.size()==2)
+			if (value2.get(0)==value2.get(1))
+				ret = true;
+				
+	}
+	
 
 
 }

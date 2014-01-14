@@ -22,8 +22,9 @@
 
 public class Combo {
 	private ArrayList<Card> combo;
-	
-	public static String identifier(ArrayList<Card> input){
+	private String type;
+	private Card max;
+	public Combo(ArrayList<Card> input){
 		if(input.size() == 0){
 			return "Invalid";
 		}
@@ -49,7 +50,7 @@ public class Combo {
 		else if (input.size() == 4){
 			return "Invalid";
 		}
-		else 
+		else if (input.size() == 5){
 			if (straight(input) && flush(input))
 				return "Straight Flush";
 			else if (house(input))
@@ -61,6 +62,7 @@ public class Combo {
 		
 
 		}
+
 	} 
 	
 	private static boolean samesuit(ArrayList<Card> input){
@@ -97,40 +99,40 @@ public class Combo {
 			}
 	}
 	
-	private static boolean flush(ArrayList<Card> input) {
-		boolean ret = true;
-		if (input.size()==5) 
-			for (int i=1; i<input.size();i++) {
-				if (!(input.get(i-1).getS() == input.get(i).getS())) {
-					ret = false;
-					break;	
-				}
-			}
-		else 
-			ret = false;
-		return ret;
-	}
-	
 	private static boolean house(ArrayList<Card> input) {
-		boolean ret = false;
-		ArrayList value1 = new ArrayList();
-		ArrayList value2 = new ArrayList();
-		int v=input.get(0).getV();
-		value1.add(v);
-		for (int i=1;i<input.size();i++)
-			if (input.get(i).getV()==v)
-				value1.add(input.get(i));
-			else
-				value2.add(input.get(i));
-		if (value1.size()==2 && value2.size()==3)
-			if (value2.get(0)==value2.get(1) && value2.get(1)==value2.get(2))
-				ret = true;
-		else if (value1.size()==3 && value2.size()==2)
-			if (value2.get(0)==value2.get(1))
-				ret = true;
-				
+		ArrayList<Integer> values = new ArrayList<Integer>();
+		for(Card a : input){
+			if (! (values.contains(a.getV()))){
+				values.add(a.getV());
+			}
+		}
+		if (values.size() != 2){
+			return false;
+		}
+		int count = 0;
+		for(Card a : input){
+			if (a.getV() == values.get(0).intValue()){
+				count++;
+			}
+		}
+		return (count == 2 || count == 3);
 	}
-	
-
-
+	private static boolean bomb(ArrayList<Card> input) {
+		ArrayList<Integer> values = new ArrayList<Integer>();
+		for(Card a : input){
+			if (! (values.contains(a.getV()))){
+				values.add(a.getV());
+			}
+		}
+		if (values.size() != 2){
+			return false;
+		}
+		int count = 0;
+		for(Card a : input){
+			if (a.getV() == values.get(0).intValue()){
+				count++;
+			}
+		}
+		return (count == 1 || count == 4);
+	}
 }

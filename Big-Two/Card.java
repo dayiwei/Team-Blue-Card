@@ -45,6 +45,9 @@ public class Card implements Comparable{
 	public boolean equalS(Card x){
 		return suit == x.suit;
 	}
+	public boolean equals(Object x){
+		return suit == ((Card)x).suit && value == ((Card)x).value;
+	}
 	public String toString(){
 		String s = "";
 		if (value == 1){

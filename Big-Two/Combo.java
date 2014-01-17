@@ -42,10 +42,12 @@ public class Combo {
 	    return "Invalid";
 	}
 	else if (input.size() == 5){
-	    if (straight(input) && sameSuit(input))
-		return "Straight Flush";
+	    if (bomb(input)
+		return "Bomb";
 	    else if (house(input))
 		return "Full House";
+	    else if (straight(input) && sameSuit(input))
+		return "Straight Flush";
 	    else if (straight(input))
 		return "Straight";
 	    else if (sameSuit(input))
@@ -54,6 +56,13 @@ public class Combo {
 	return "Invalid";
     } 
     private static void sort(ArrayList<Card> input){
+	for(int i=1; i<input.size();i++)
+	    for (int i2=0;i2<i;i2++)
+		if (input.get(i2).getV()>input.get(i).getv()){
+		    input.add(i2, input.get(i));
+		    input.remove(
+		}
+    }
 
 	
     private static boolean sameSuit(ArrayList<Card> input){

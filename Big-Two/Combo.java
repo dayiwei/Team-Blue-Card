@@ -136,4 +136,11 @@ public class Combo {
 	}
 	return (count == 1 || count == 4);
     }
+
+    //returns 1 when h1>h2, -1 when h1<h2
+    public static int compareHand(ArrayList<Card> h1, ArrayList<Card> h2) {
+	if (checkHand(h1).equals(checkHand(h2)))
+	    
+	    
+    }
 }

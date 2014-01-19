@@ -2,8 +2,8 @@ public class Card implements Comparable{
 	private int value;
 	private int suit;
 	public Card(int v,int s){
-		value = v % 14;
-		suit = s % 14;
+		value = (v - 1) % 13 + 1;
+		suit = (s - 1) % 13 + 1;
 	}
 	public Card(){
 		this(1,4);

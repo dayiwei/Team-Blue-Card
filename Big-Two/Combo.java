@@ -22,6 +22,18 @@
 
 import java.util.ArrayList;
 public class Combo{
+	private static boolean validate(ArrayList<Card> input){
+		return (input.size() > 0 && (
+					input.size() == 1 ||
+					pair(input) ||
+					triple(input) ||
+					straight(input) ||
+					flush(input) ||
+					house(input) ||
+					bomb(input)
+					)
+				);
+	}
 	private static void sort(ArrayList<Card> input){
 		for( int partition = 1; partition < input.size(); partition++ ) {
 			for( int i = partition; i > 0; i-- ) {
@@ -41,8 +53,16 @@ public class Combo{
 			}
 		}
 		return ret;
-	} 
-	private static boolean sameValue(ArrayList<Card> input){
+	}
+	private static boolean pair(ArrayList<Card> input){
+		return (input.size() == 2 && sameSuit(input));
+	}
+	private static boolean triple(ArrayList<Card> input){
+		return (input.size() == 3 && sameSuit(input));
+	}
+	private static boolean flush(ArrayList<Card> input){
+		if(input.size() != 5)
+			return false;
 		boolean ret = true;
 		for(int x = 1;x<input.size();x++){
 			if(!(input.get(x -1).equalV(input.get(x)))){
@@ -53,6 +73,8 @@ public class Combo{
 	}
 
 	private static boolean straight(ArrayList<Card> input){
+		if(input.size() != 5)
+			return false;
 		sort(input);
 		boolean ret = true;
 		for(int x = 1; x < input.size() ; x++){
@@ -103,6 +125,9 @@ public class Combo{
 		}
 		return (count == 1 || count == 4);
 	}
+	private static boolean straightflush(ArrayList<Card> input){
+		return (sameSuit(input) && straight(input));
+	}
 	public static void main(String[] args){
 		ArrayList<Card> hand = new ArrayList<Card>();
 		for(int x = 1;x != 4;x++){
@@ -110,14 +135,24 @@ public class Combo{
 			hand.add(new Card(1,x));
 		}
 		System.out.println("Current hand: " + hand);
-		System.out.println("Same value of hand: " + sameValue(hand));
+		System.out.println("Same value of hand: " + flush(hand));
 		hand = new ArrayList<Card>();
-		for(int x = 3;x <= 1;x++){
-			// Adds three aces to the hand.
+		for(int x = 14;x >= 10;x--){
 			hand.add(new Card(x,4));	
 		}
 		System.out.println("Current hand: " + hand);
+		sort(hand);
+		System.out.println("Sorted hand: " + hand);
 		System.out.println("Same suit of hand: " + sameSuit(hand));
 		System.out.println("Straight of hand: " + straight(hand));
+		System.out.println("Straight Flush of hand: " + straightflush(hand));
+		hand = new ArrayList<Card>();
+		hand.add(new Card(1,1));
+		hand.add(new Card(1,2));
+		hand.add(new Card(1,3));
+		hand.add(new Card(1,4));
+		hand.add(new Card(2,2));
+		System.out.println("Current hand: " + hand);
+		System.out.println("Bomb of hand: " + bomb(hand));
 	}
 }

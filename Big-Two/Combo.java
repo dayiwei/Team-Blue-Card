@@ -22,6 +22,24 @@
 
 import java.util.ArrayList;
 public class Combo{
+	ArrayList<Card> cards;
+	Card value;
+	String type;
+	public Combo(ArrayList<Card> input){
+		if (input.size() == 1){
+			cards = input;
+			value = input.get(1);
+			type = "Single";
+		}
+		else{
+			sort(input);
+			if(pair(input)){
+				cards = input;
+				value = input.get(input.size() - 1);
+				
+			}
+		}
+	}
 	private static boolean validate(ArrayList<Card> input){
 		return (input.size() > 0 && (
 					input.size() == 1 ||
@@ -88,7 +106,6 @@ public class Combo{
 		}
 		return ret;
 	}
-
 	private static boolean house(ArrayList<Card> input) {
 		ArrayList<Integer> values = new ArrayList<Integer>();
 		for(Card a : input){
@@ -137,12 +154,10 @@ public class Combo{
 		System.out.println("Current hand: " + hand);
 		System.out.println("Same value of hand: " + flush(hand));
 		hand = new ArrayList<Card>();
-		for(int x = 14;x >= 10;x--){
+		for(int x = 2;x <= 6;x++){
 			hand.add(new Card(x,4));	
 		}
 		System.out.println("Current hand: " + hand);
-		sort(hand);
-		System.out.println("Sorted hand: " + hand);
 		System.out.println("Same suit of hand: " + sameSuit(hand));
 		System.out.println("Straight of hand: " + straight(hand));
 		System.out.println("Straight Flush of hand: " + straightflush(hand));

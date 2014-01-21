@@ -27,41 +27,64 @@ public class Combo{
     private int value;
 
     public Combo(ArrayList<Card> input) {
-	sort(input);
-	if (pair(input)) {
-	    type ="pair";
-	    value = input.get(0).power();
+	if(!(validate(input)==true)){
+	    type = "Invalid";
+	    value = -1;
 	}
-	else if (triple(input)){
-	    type = "triple";
-	    value = input.get(0).power();
-	}
-	else if (house(input)) {
-	    type = "house";
-	    value = input.get(2).power();
-	}
-	else if (bomb(input)){
-	    if(input.get(0).compareTo(input.get(1))==0)
+	else {
+	    sort(input);
+	    if (pair(input)) {
+		type ="pair";
 		value = input.get(0).power();
-	    else
-		value = input.get(1).power();
-	    type = "bomb";
-	}
-	else if (straight(input) && flush(input)){
-	    type = "straight flush";
-	    value = input.get(4).power();
-	}	
-	else if (straight(input)){
-	    type = "straight";
-	    value = input.get(4).power();
-	}
-	else if (flush(input)){
-	    type = "flush";
-	    value = input.get(4).power();
+	    }
+	    else if (triple(input)){
+		type = "triple";
+		value = input.get(0).power();
+	    }
+	    else if (house(input)) {
+		type = "house";
+		value = input.get(2).power();
+	    }
+	    else if (bomb(input)){
+		if(input.get(0).compareTo(input.get(1))==0)
+		    value = input.get(0).power();
+		else
+		    value = input.get(1).power();
+		type = "bomb";
+	    }
+	    else if (straight(input) && flush(input)){
+		type = "straight flush";
+		value = input.get(4).power();
+	    }	
+	    else if (straight(input)){
+		type = "straight";
+		value = input.get(4).power();
+	    }
+	    else if (flush(input)){
+		type = "flush";
+		value = input.get(4).power();
+	    }
 	}
 
     }
+    
+    public String getT() {
+	return type;
+    }
 
+    public int getV() {
+	return value;
+    }
+
+    public boolean compareTo(Combo x) {
+	if (value>x.getV())
+	    return 1;
+	else if (value<x.getV())
+	    return -1;
+	else 
+	    return 0;
+
+    }
     private static boolean validate(ArrayList<Card> input){
 	return (input.size() > 0 && (
 
@@ -74,6 +97,7 @@ public class Combo{
 				     )
 		);
     }
+
     private static void sort(ArrayList<Card> input){
 	for( int partition = 1; partition < input.size(); partition++ ) {
 	    for( int i = partition; i > 0; i-- ) {

@@ -10,8 +10,7 @@ public class BigTwo {
 		Card c = new Card(x,i);
 		deck.add(c);
 	    }
-	randomize(deck);
-	ArrayList<Card> player1 = new ArrayList<Card>();
+        ArrayList<Card> player1 = new ArrayList<Card>();
 	ArrayList<Card> player2 = new ArrayList<Card>();
 	ArrayList<Card> player3 = new ArrayList<Card>();
 	ArrayList<Card> player4 = new ArrayList<Card>();
@@ -29,21 +28,15 @@ public class BigTwo {
 	}
     }
 
-    public static void randomize(ArrayList input) {
-
-
-    }
-
     public void play() {
 
 	
-	while(
+	while(b
     }
     
     public static void main(String args[]) {
 	BigTwo game = new BigTwo;
 	play();
-	System.out.println(deck);
     }
     
 }

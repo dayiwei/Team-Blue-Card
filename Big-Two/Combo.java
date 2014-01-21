@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class Combo{
 
     private String type;
-    private int value;
+    private Card value;
 
     public Combo(ArrayList<Card> input) {
 	if(!(validate(input)==true)){
@@ -35,51 +35,51 @@ public class Combo{
 	    sort(input);
 	    if (pair(input)) {
 		type ="pair";
-		value = input.get(0).power();
+		value = input.get(0);
 	    }
 	    else if (triple(input)){
 		type = "triple";
-		value = input.get(0).power();
+		value = input.get(0);
 	    }
 	    else if (house(input)) {
 		type = "house";
-		value = input.get(2).power();
+		value = input.get(2);
 	    }
 	    else if (bomb(input)){
-		if(input.get(0).compareTo(input.get(1))==0)
-		    value = input.get(0).power();
+		if(input.get(0).getV()==(input.get(1).getV()))
+		    value = input.get(0)
 		else
-		    value = input.get(1).power();
+		    value = input.get(1);
 		type = "bomb";
 	    }
 	    else if (straight(input) && flush(input)){
 		type = "straight flush";
-		value = input.get(4).power();
+		value = input.get(4);
 	    }	
 	    else if (straight(input)){
 		type = "straight";
-		value = input.get(4).power();
+		value = input.get(4);
 	    }
 	    else if (flush(input)){
 		type = "flush";
-		value = input.get(4).power();
+		value = input.get(4);
 	    }
 	}
 
     }
     
-    public String getT() {
+    public String getCT() {
 	return type;
     }
 
-    public int getV() {
+    public Card getCV() {
 	return value;
     }
 
     public boolean compareTo(Combo x) {
-	if (value>x.getV())
+	if (value.compareTo(x.getCV())>0)
 	    return 1;
-	else if (value<x.getV())
+	else if (value.compareTo(x.getCV())<0)
 	    return -1;
 	else 
 	    return 0;

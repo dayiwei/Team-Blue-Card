@@ -1,4 +1,4 @@
-
+ 
 /* Rules 
 
    Single cards: Any card from the deck, ordered by rank with suit being the tie-breaker. (For instance, A of Spades beats A of Hearts, which beats K of Spades.)
@@ -20,226 +20,228 @@
    Straight Flush: A composite of the straight and flush: five cards in sequence in the same suit. Ranked the same as straights, suit being a tie-breaker. (Sometimes also played as a bomb or tiki, larger than a Four of a Kind)
 */
 
-import java.util.ArrayList;
-public class Combo{
+   import java.util.ArrayList;
+   public class Combo{
 
-    private String type;
-    private Card value;
+   	private String type;
+   	private Card value;
+   	private int playernum;
 
-    public Combo(ArrayList<Card> input) {
-	if(!(validate(input)==true)){
-	    type = "Invalid";
-	    value = -1;
-	}
-	else {
-	    sort(input);
-	    if (pair(input)) {
-		type ="pair";
-		value = input.get(0);
-	    }
-	    else if (triple(input)){
-		type = "triple";
-		value = input.get(0);
-	    }
-	    else if (house(input)) {
-		type = "house";
-		value = input.get(2);
-	    }
-	    else if (bomb(input)){
-		if(input.get(0).getV()==(input.get(1).getV()))
-		    value = input.get(0)
-		else
-		    value = input.get(1);
-		type = "bomb";
-	    }
-	    else if (straight(input) && flush(input)){
-		type = "straight flush";
-		value = input.get(4);
-	    }	
-	    else if (straight(input)){
-		type = "straight";
-		value = input.get(4);
-	    }
-	    else if (flush(input)){
-		type = "flush";
-		value = input.get(4);
-	    }
-	}
+   	public Combo(ArrayList<Card> input, int player) {
+   		playernum = player;
+   		if(!(validate(input)==true)){
+   			type = "Invalid";
+   			value = -1;
+   		}
+   		else {
+   			sort(input);
+   			if (pair(input)) {
+   				type ="pair";
+   				value = input.get(0);
+   			}
+   			else if (triple(input)){
+   				type = "triple";
+   				value = input.get(0);
+   			}
+   			else if (house(input)) {
+   				type = "house";
+   				value = input.get(2);
+   			}
+   			else if (bomb(input)){
+   				if(input.get(0).getV()==(input.get(1).getV()))
+   					value = input.get(0)
+   				else
+   					value = input.get(1);
+   				type = "bomb";
+   			}
+   			else if (straight(input) && flush(input)){
+   				type = "straight flush";
+   				value = input.get(4);
+   			}	
+   			else if (straight(input)){
+   				type = "straight";
+   				value = input.get(4);
+   			}
+   			else if (flush(input)){
+   				type = "flush";
+   				value = input.get(4);
+   			}
+   		}
 
-    }
-    
-    public String getCT() {
-	return type;
-    }
+   	}
+   	
+   	public String getCT() {
+   		return type;
+   	}
 
-    public Card getCV() {
-	return value;
-    }
+   	public Card getCV() {
+   		return value;
+   	}
 
-    public boolean compareTo(Combo x) {
-	if (value.compareTo(x.getCV())>0)
-	    return 1;
-	else if (value.compareTo(x.getCV())<0)
-	    return -1;
-	else 
-	    return 0;
+   	public boolean compareTo(Combo x) {
+   		if (value.compareTo(x.getCV())>0)
+   			return 1;
+   		else if (value.compareTo(x.getCV())<0)
+   			return -1;
+   		else 
+   			return 0;
 
-    }
-    private static boolean validate(ArrayList<Card> input){
-	return (input.size() > 0 && (
+   	}
+   	private static boolean validate(ArrayList<Card> input){
+   		return (input.size() > 0 && (
 
-				     pair(input) ||
-				     triple(input) ||
-				     straight(input) ||
-				     flush(input) ||
-				     house(input) ||
-				     bomb(input)
-				     )
-		);
-    }
+   			pair(input) ||
+   			triple(input) ||
+   			straight(input) ||
+   			flush(input) ||
+   			house(input) ||
+   			bomb(input)
+   			)
+   		);
+   	}
 
-    private static void sort(ArrayList<Card> input){
-	for( int partition = 1; partition < input.size(); partition++ ) {
-	    for( int i = partition; i > 0; i-- ) {
-		if ( input.get(i).compareTo( input.get(i-1) ) < 0 ) {
-		    input.set( i, input.set( i-1, input.get(i) ) ); 
-		}
-		else 
-		    break; 
-	    }
-	}
-    }
+   	private static void sort(ArrayList<Card> input){
+   		for( int partition = 1; partition < input.size(); partition++ ) {
+   			for( int i = partition; i > 0; i-- ) {
+   				if ( input.get(i).compareTo( input.get(i-1) ) < 0 ) {
+   					input.set( i, input.set( i-1, input.get(i) ) ); 
+   				}
+   				else 
+   					break; 
+   			}
+   		}
+   	}
 
-    private static boolean sameSuit(ArrayList<Card> input){
-	boolean ret = true;
-	for(int x = 1;x<input.size();x++){
-	    if(!(input.get(x -1).equalS(input.get(x)))){
-		ret = false;
-	    }
-	}
-	return ret;
-    }
+   	private static boolean sameSuit(ArrayList<Card> input){
+   		boolean ret = true;
+   		for(int x = 1;x<input.size();x++){
+   			if(!(input.get(x -1).equalS(input.get(x)))){
+   				ret = false;
+   			}
+   		}
+   		return ret;
+   	}
 
-    private static boolean sameValue(ArrayList<Card> input){
-	boolean ret = true;
-	for(int x = 1;x<input.size();x++){
-	    if(!(input.get(x -1).equalV(input.get(x)))){
-		ret = false;
-		break;
-	    }
-	}
-	return ret;
-    }
+   	private static boolean sameValue(ArrayList<Card> input){
+   		boolean ret = true;
+   		for(int x = 1;x<input.size();x++){
+   			if(!(input.get(x -1).equalV(input.get(x)))){
+   				ret = false;
+   				break;
+   			}
+   		}
+   		return ret;
+   	}
 
-    private static boolean pair(ArrayList<Card> input){
-	return (input.size() == 2 && sameValue(input));
-    }
-    private static boolean triple(ArrayList<Card> input){
-	return (input.size() == 3 && sameValue(input));
-    }
-    private static boolean flush(ArrayList<Card> input){
-	if(input.size() != 5)
-	    return false;
-	boolean ret = true;
-	for(int x = 1;x<input.size();x++){
-	    if(!(input.get(x -1).equalV(input.get(x)))){
-		ret = false;
-	    }
-	}
-	return ret;
-    }
+   	private static boolean pair(ArrayList<Card> input){
+   		return (input.size() == 2 && sameValue(input));
+   	}
+   	private static boolean triple(ArrayList<Card> input){
+   		return (input.size() == 3 && sameValue(input));
+   	}
+   	private static boolean flush(ArrayList<Card> input){
+   		if(input.size() != 5)
+   			return false;
+   		boolean ret = true;
+   		for(int x = 1;x<input.size();x++){
+   			if(!(input.get(x -1).equalV(input.get(x)))){
+   				ret = false;
+   			}
+   		}
+   		return ret;
+   	}
 
-    private static boolean straight(ArrayList<Card> input){
-	if(input.size() != 5)
-	    return false;
-	sort(input);
-	boolean ret = true;
-	for(int x = 1; x < input.size() ; x++){
-	    int currentvalue = input.get(0).getV() + x;
-	    if (currentvalue == 14){
-		currentvalue = 1;
-	    }
-	    if(! (currentvalue == input.get(x).getV())){
-		ret = false;
-	    }
-	}
-	return ret;
-    }
+   	private static boolean straight(ArrayList<Card> input){
+   		if(input.size() != 5)
+   			return false;
+   		sort(input);
+   		boolean ret = true;
+   		for(int x = 1; x < input.size() ; x++){
+   			int currentvalue = input.get(0).getV() + x;
+   			if (currentvalue == 14){
+   				currentvalue = 1;
+   			}
+   			if(! (currentvalue == input.get(x).getV())){
+   				ret = false;
+   			}
+   		}
+   		return ret;
+   	}
 
-    private static boolean house(ArrayList<Card> input) {
-	ArrayList<Integer> values = new ArrayList<Integer>();
-	for(Card a : input){
-	    if (! (values.contains(a.getV()))){
-		values.add(a.getV());
-	    }
-	}
-	if (values.size() != 2){
-	    return false;
-	}
-	int count = 0;
-	for(Card a : input){
-	    if (a.getV() == values.get(0).intValue()){
-		count++;
-	    }
-	}
-	return (count == 2 || count == 3);
-    }
-    private static boolean bomb(ArrayList<Card> input) {
-	ArrayList<Integer> values = new ArrayList<Integer>();
-	for(Card a : input){
-	    if (! (values.contains(a.getV()))){
-		values.add(a.getV());
-	    }
-	}
-	if (values.size() != 2){
-	    return false;
-	}
-	int count = 0;
-	for(Card a : input){
-	    if (a.getV() == values.get(0).intValue()){
-		count++;
-	    }
-	}
-	return (count == 1 || count == 4);
-    }
-    private static boolean straightflush(ArrayList<Card> input){
-	return (sameSuit(input) && straight(input));
-    }
-    public static void main(String[] args){
-	ArrayList<Card> hand = new ArrayList<Card>();
-	for(int x = 1;x != 4;x++){
+   	private static boolean house(ArrayList<Card> input) {
+   		ArrayList<Integer> values = new ArrayList<Integer>();
+   		for(Card a : input){
+   			if (! (values.contains(a.getV()))){
+   				values.add(a.getV());
+   			}
+   		}
+   		if (values.size() != 2){
+   			return false;
+   		}
+   		int count = 0;
+   		for(Card a : input){
+   			if (a.getV() == values.get(0).intValue()){
+   				count++;
+   			}
+   		}
+   		return (count == 2 || count == 3);
+   	}
+   	private static boolean bomb(ArrayList<Card> input) {
+   		ArrayList<Integer> values = new ArrayList<Integer>();
+   		for(Card a : input){
+   			if (! (values.contains(a.getV()))){
+   				values.add(a.getV());
+   			}
+   		}
+   		if (values.size() != 2){
+   			return false;
+   		}
+   		int count = 0;
+   		for(Card a : input){
+   			if (a.getV() == values.get(0).intValue()){
+   				count++;
+   			}
+   		}
+   		return (count == 1 || count == 4);
+   	}
+   	private static boolean straightflush(ArrayList<Card> input){
+   		return (sameSuit(input) && straight(input));
+   	}
+   	public static void main(String[] args){
+   		ArrayList<Card> hand = new ArrayList<Card>();
+   		for(int x = 1;x != 4;x++){
 	    // Adds three aces to the hand.
-	    hand.add(new Card(1,x));
-	}
-	System.out.println("Current hand: " + hand);
-	System.out.println("Same value of hand: " + flush(hand));
-	hand = new ArrayList<Card>();
-	for(int x = 14;x >= 10;x--){
-	    hand.add(new Card(x,4));	
-	}
-	System.out.println("Current hand: " + hand);
-	sort(hand);
-	System.out.println("Sorted hand: " + hand);
-	System.out.println("Same suit of hand: " + sameSuit(hand));
-	System.out.println("Straight of hand: " + straight(hand));
-	System.out.println("Straight Flush of hand: " + straightflush(hand));
-	hand = new ArrayList<Card>();
-	hand.add(new Card(1,1));
-	hand.add(new Card(1,2));
-	hand.add(new Card(1,3));
-	hand.add(new Card(1,4));
-	hand.add(new Card(2,2));
-	System.out.println("Current hand: " + hand);
-	System.out.println("Bomb of hand: " + bomb(hand));
-		
-	hand = new ArrayList<Card>();
-	hand.add(new Card(3,4));
-	hand.add(new Card(3,1));
-	hand.add(new Card(3,2));
-	hand.add(new Card(4,1));
-	hand.add(new Card(4,2));
-	System.out.println("Current hand: "+ hand);
-	System.out.println("Is house? " + house(hand));
-	System.out.println("Current hand: "+ hand);
-    }
-}
+   			hand.add(new Card(1,x));
+   		}
+   		System.out.println("Current hand: " + hand);
+   		System.out.println("Same value of hand: " + flush(hand));
+   		hand = new ArrayList<Card>();
+   		for(int x = 14;x >= 10;x--){
+   			hand.add(new Card(x,4));	
+   		}
+   		System.out.println("Current hand: " + hand);
+   		sort(hand);
+   		System.out.println("Sorted hand: " + hand);
+   		System.out.println("Same suit of hand: " + sameSuit(hand));
+   		System.out.println("Straight of hand: " + straight(hand));
+   		System.out.println("Straight Flush of hand: " + straightflush(hand));
+   		hand = new ArrayList<Card>();
+   		hand.add(new Card(1,1));
+   		hand.add(new Card(1,2));
+   		hand.add(new Card(1,3));
+   		hand.add(new Card(1,4));
+   		hand.add(new Card(2,2));
+   		System.out.println("Current hand: " + hand);
+   		System.out.println("Bomb of hand: " + bomb(hand));
+   		
+   		hand = new ArrayList<Card>();
+   		hand.add(new Card(3,4));
+   		hand.add(new Card(3,1));
+   		hand.add(new Card(3,2));
+   		hand.add(new Card(4,1));
+   		hand.add(new Card(4,2));
+   		System.out.println("Current hand: "+ hand);
+   		System.out.println("Is house? " + house(hand));
+   		System.out.println("Current hand: "+ hand);
+   	}
+   }

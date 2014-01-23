@@ -100,7 +100,7 @@
    		);
    	}
 
-   	private static void sort(ArrayList<Card> input){
+   	public static void sort(ArrayList<Card> input){
    		for( int partition = 1; partition < input.size(); partition++ ) {
    			for( int i = partition; i > 0; i-- ) {
    				if ( input.get(i).compareTo( input.get(i-1) ) < 0 ) {

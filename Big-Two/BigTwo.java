@@ -27,6 +27,10 @@ public class BigTwo {
 		
 	}
 
+    public void pass() {
+	turn++;
+    }
+
 	public static void main(String args[]) {
 		BigTwo game = new BigTwo;
 		play();

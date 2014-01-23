@@ -25,6 +25,12 @@ public class BigTwo {
 		// Find Diamond 3
 		int turn;
 		
+
+		while(player.size()!=1){//let player choose cards and put it on pile, need something to loop around the turns and let the player use pass(), need something to tell which player actually won, stops when there is only 1 player left
+
+		    turn++;
+		}
+
 	}
 
     public void pass() {

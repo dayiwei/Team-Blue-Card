@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class BigTwo {
 	ArrayList<ArrayList<Card>> players;
+    int turn=0;
 	public BigTwo(int numplayers) {
 
-		Arraylist<Card> deck = new ArrayList<Card>();
+		ArrayList<Card> deck = new ArrayList<Card>();
 		for(int i=1;i<5;i++){
 			for (int x=1; x<14;x++){
 				Card c = new Card(x,i);
@@ -23,10 +25,12 @@ public class BigTwo {
 
 	public void play(){
 		// Find Diamond 3
-		int turn;
+
 		
 
-		while(player.size()!=1){//let player choose cards and put it on pile, need something to loop around the turns and let the player use pass(), need something to tell which player actually won, stops when there is only 1 player left
+		while(players.size()!=1){
+/*let player choose cards and put it on pile, need something to loop around the turns and let the player use pass(), need something to tell which player actually won, stops when there is only 1 player left
+*/
 
 		    turn++;
 		}
@@ -38,8 +42,12 @@ public class BigTwo {
     }
 
 	public static void main(String args[]) {
-		BigTwo game = new BigTwo;
-		play();
+	    Scanner scanner = new Scanner(System.in);
+	    System.out.print("Number of Players: ");
+	    int numplayers = Integer.parseInt(scanner.next());
+
+	    BigTwo game = new BigTwo(numplayers);
+		game.play();
 	}
 
 }

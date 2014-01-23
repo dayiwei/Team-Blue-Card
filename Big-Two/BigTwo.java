@@ -27,14 +27,18 @@ public class BigTwo {
 
     public void play(){
 	int turn = players.findLowest();
-	
+	System.out.println("Player "+(1+turn)+"'s turn!");
+	System.out.println("Your hand: ");
+	System.out.println(players.get(turn));
+	System.out.println("
+	Scanner scanner = new Scanner(System.in); 
+	String input = scanner.next();
 	
 		
 	Combo oldpile = new Combo(hand, turn);//combo of the 1st player with diamond 3
 	while(players.size()!=1){
 	    /*let player choose cards and put it on pile, need something to loop around the turns and let the player use pass(), need something to tell which player actually won, stops when there is only 1 player left
 	     */
-	    Scanner scanner = new Scanner(System.in); 
 	    String input = scanner.next();
 	    if(input.equals("pass"))
 		pass();

@@ -16,7 +16,7 @@ public class BigTwo {
 		deck.add(c);
 	    }
 	}
-	for(;numplayers != 0; numplayers--){
+	for(int i=numplayers;i != 0; i--){
 	    ArrayList<Card> x = new ArrayList<Card>();
 	    players.add(x);
 	}
@@ -48,8 +48,9 @@ public class BigTwo {
 	    System.out.println(players.get(turn));
 
 	    Scanner scanner = new Scanner(System.in); 
+	    System.out.println("pass?");
 	    String input = scanner.next();
-	    if(input.equals("pass"))
+	    if(input.equals("yes"))
 		pass();
 	    else {
 		for(int i=0;i<6;i++){
@@ -95,7 +96,7 @@ public class BigTwo {
 	    System.out.print("Number of Players: ");
 	    numplayers = scanner.nextInt();
 	}
-	System.out.println(numplayers);
+	// System.out.println(numplayers);
 
 	BigTwo game = new BigTwo(numplayers);
 	game.play();

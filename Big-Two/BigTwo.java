@@ -32,7 +32,6 @@ public class BigTwo {
 
     public void pass() {
 	freeturn=true;
-	turn++;
     }
     
 
@@ -48,37 +47,38 @@ public class BigTwo {
 	     */
 	    turn = turn%numplayers;
 	    System.out.println("Player "+(1+turn)+"'s turn!");
+	    System.out.println("Hand to beat :");
+	    System.out.println(oldpile);
 	    System.out.print("Your hand: ");
 	    System.out.println(players.get(turn));
 
 	    Scanner scanner = new Scanner(System.in); 
-	    System.out.println("pass?");
-	    String input = scanner.next();
-	    if(input.equals("yes"))
-		pass();
-	    else {
-		for(int i=0;i<6;i++){
-		    System.out.print("Play: ");
-		    String index = scanner.next();
-		    if(input.equals("enter")||input.equals("play")){
-			newpile = new Combo(hand);
-			if(newpile.beats(oldpile)||(freeturn))
-			    oldpile = newpile;
-			else
-			    System.out.println("Invalid input");
-		    }
-		    else if(Integer.parseInt(index)<players.get(turn).size()){
-			hand.add(players.get(turn).get(Integer.parseInt(index)));
-		    }
-		}
-	    }
 
+	    for(int i=0;i<6;i++){
+		System.out.print("Play: ");
+		String input = scanner.next();
+		if(input.equals("yes"))
+		    pass();
+		if(input.equals("enter")||input.equals("play")){
+		    newpile = new Combo(hand);
+		    if(freeturn||newpile.beats(oldpile)){
+			oldpile = newpile;
+			break;
+		    }
+		    else
+			System.out.println("Invalid input");
+		}
+		else
+		    if(Integer.parseInt(input)<players.get(turn).size()){
+			hand.add(players.get(turn).get(Integer.parseInt(input)));
+		    }
+	    }
 	    turn++;
 	    freeturn=false;
 	}
-	// System.out.println("player " + turn +"won!");
-
     }
+    // System.out.println("player " + turn +"won!");
+
 	
 	
     private int findLowest(){

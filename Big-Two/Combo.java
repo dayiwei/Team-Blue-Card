@@ -24,31 +24,31 @@
    public class Combo{
 
       private ArrayList<Card> cards;
-   	private String type;
+   	private int type;
    	private Card value;
 
    	public Combo(ArrayList<Card> input) {
          cards = input;
    		if(!(validate(input)==true)){
-   			type = "Invalid";
+   			type = 0;
    			value = null;
    		}
    		else {
    			sort(input);
             if (input.size() == 1){
-               type = "single";
+               type = 1;
                value = input.get(0);
             }
    			if (pair(input)) {
-   				type ="pair";
+   				type = 2;
    				value = input.get(0);
    			}
    			else if (triple(input)){
-   				type = "triple";
+   				type = 3;
    				value = input.get(0);
    			}
    			else if (house(input)) {
-   				type = "house";
+   				type = 6;
                Card x = input.get(1);
                int count = 0;
                for(Card y : input){
@@ -68,28 +68,27 @@
 				    value = input.get(0);
    				else
 				    value = input.get(1);
-   				type = "bomb";
+   				type = 7;
    			}
    			else if (straightflush(input)){
-   				type = "straight flush";
+   				type = 8;
    				value = input.get(4);
    			}	
    			else if (straight(input)){
-   				type = "straight";
+   				type = 4;
    				value = input.get(4);
    			}
    			else if (flush(input)){
-   				type = "flush";
+   				type = 5;
    				value = input.get(4);
    			}
    		}
 
    	}
    	
-   	public String getCT() {
+   	public int getCT() {
    		return type;
    	}
-
    	public Card getCV() {
    		return value;
    	}
@@ -226,38 +225,49 @@
    	private static boolean straightflush(ArrayList<Card> input){
    		return (sameSuit(input) && straight(input));
    	}
+      public boolean beats(Combo x){
+         if (type == x.type){
+            if (value.compareTo(x.value) > 0){
+               return true;
+            }
+         }
+         if (type > 3 && type > x.type){
+            return true;
+         }
+         return false;
+      }
       public String toString(){
-         if (type.equals("single")){
+         if (type == 1){
             return value.toString();
          }
-         else if (type.equals("pair")){
+         else if (type == 2){
             if (value.getV() == 6){
                return "Pair of " + value.stringV() + "es";
             }
             return "Pair of " + value.stringV() + "s";
          }
-         else if (type.equals("triple")){
+         else if (type == 3){
             if (value.getV() == 6){
                return "Triple " + value.stringV() + "es";
             }
             return "Triple " + value.stringV() + "s";
          }
-         else if (type.equals("straight")){
+         else if (type == 4){
             return "Straight to " + value; 
          }
-         else if (type.equals("flush")){
+         else if (type == 5){
             return value.stringS() + " Flush " + "(" + value + " high)";
          }
-         else if (type.equals("house")){
+         else if (type == 6){
             if (value.getV() == 6){
                return "House of " + value.stringV() + "es";
             }
             return "House of  " + value.stringV() + "s";
          }
-         else if (type.equals("bomb")){
+         else if (type == 7){
             return value.stringV() + " Bomb";
          }
-         else if (type.equals("straight flush")){
+         else if (type == 8){
             return "Straight Flush to " + value;
          }
          return null;
@@ -292,15 +302,17 @@
          System.out.println("Combo of hand: " + new Combo(hand));
    		System.out.println("Bomb of hand: " + bomb(hand));
    		
-   		hand = new ArrayList<Card>();
-   		hand.add(new Card(3,4));
-   		hand.add(new Card(3,1));
-   		hand.add(new Card(3,2));
-   		hand.add(new Card(4,1));
-   		hand.add(new Card(4,2));
-   		System.out.println("Current hand: "+ hand);
-         System.out.println("Combo of hand: " + new Combo(hand));
-   		System.out.println("Is house? " + house(hand));
-   		System.out.println("Current hand: "+ hand);
+   		ArrayList<Card> hand2 = new ArrayList<Card>();
+   		hand2.add(new Card(3,4));
+   		hand2.add(new Card(3,1));
+   		hand2.add(new Card(3,2));
+   		hand2.add(new Card(4,1));
+   		hand2.add(new Card(4,2));
+   		System.out.println("Current hand: "+ hand2);
+         System.out.println("Combo of hand: " + new Combo(hand2));
+   		System.out.println("Is house? " + house(hand2));
+   		System.out.println("Current hand: "+ hand2);
+         System.out.println(new Combo(hand) + " beats " + new Combo(hand2) + ": " + (new Combo(hand)).beats(new Combo(hand2)));
+         System.out.println(new Combo(hand2) + " beats " + new Combo(hand) + ": " + (new Combo(hand2)).beats(new Combo(hand)));
    	}
    }

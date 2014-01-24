@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class BigTwo {
     ArrayList<ArrayList<Card>> players;
-    int turn=0;
+    int turn;
     int numplayers;
 
     public BigTwo(int playernumb) {
@@ -88,8 +88,12 @@ public class BigTwo {
     
     public static void main(String args[]) {
 	Scanner scanner = new Scanner(System.in);
-	System.out.print("Number of Players: ");
+
 	int numplayers = scanner.nextInt();
+	while(numplayers<2||numplayers>4){
+	    System.out.println("Invalid number of players");
+	    System.out.print("Number of Players: ");
+	}
 	System.out.println(numplayers);
 
 	BigTwo game = new BigTwo(numplayers);

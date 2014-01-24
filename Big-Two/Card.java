@@ -48,7 +48,7 @@ public class Card implements Comparable{
 	public boolean equals(Object x){
 		return suit == ((Card)x).suit && value == ((Card)x).value;
 	}
-	public String toStringV(){
+	public String toString(){
 		String s = "";
 		if (value == 1){
 			s += "Ace";
@@ -77,38 +77,6 @@ public class Card implements Comparable{
 		}
 		else if (suit == 4){
 			s += "Spades";
-		}
-		return s;
-	}
-	public String toString(){
-		String s = "";
-		if (suit == 1){
-			s += "♦";
-		}
-		else if (suit == 2){
-			s += "♣";
-		}
-		else if (suit == 3){
-			s += "♥";
-		}
-		else if (suit == 4){
-			s += "♠";
-		}
-		s += " ";
-		if (value == 1){
-			s += "A";
-		}
-		else if (value == 11){
-			s += "J";
-		}
-		else if (value == 12){
-			s += "Q";
-		}
-		else if (value == 13){
-			s += "K";
-		}
-		else{
-			s += value;
 		}
 		return s;
 	}

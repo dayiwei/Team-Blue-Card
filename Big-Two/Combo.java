@@ -79,6 +79,8 @@
    	}
 
    	public int compareTo(Combo x) {
+	    // if(! x.getCT().equals(type))
+	    // 	return -2;
    		if (value.compareTo(x.getCV())>0)
    			return 1;
    		else if (value.compareTo(x.getCV())<0)

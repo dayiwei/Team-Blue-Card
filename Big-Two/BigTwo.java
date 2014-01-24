@@ -57,6 +57,7 @@ public class BigTwo {
 		    System.out.print("Play: ");
 		    int index = scanner.nextInt();
 		    if(input.equals("enter")||input.equals("play")){
+			newpile = new Combo(hand, turn);
 			if(newpile.compareTo(oldpile)>0)
 			    oldpile = newpile;
 			else
@@ -67,6 +68,7 @@ public class BigTwo {
 		    }
 		}
 	    }
+
 	    turn++;
 	}
 

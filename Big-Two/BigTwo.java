@@ -5,10 +5,12 @@ public class BigTwo {
     ArrayList<ArrayList<Card>> players;
     int turn;
     int numplayers;
+    boolean freeturn;
 
     public BigTwo(int playernumb) {
 	players = new ArrayList<ArrayList<Card>>();
 	numplayers=playernumb;
+	freeturn = true;
 	ArrayList<Card> deck = new ArrayList<Card>();
 	for(int i=1;i<5;i++){
 	    for (int x=1; x<14;x++){
@@ -29,6 +31,7 @@ public class BigTwo {
 
 
     public void pass() {
+	freeturn=true;
 	turn++;
     }
     
@@ -37,8 +40,8 @@ public class BigTwo {
 	turn = findLowest();
 	ArrayList<Card> hand = new ArrayList<Card>();
 	//combo of the 1st player with diamond 3	
-	Combo oldpile = new Combo(hand, turn);
-	Combo newpile = new Combo(hand, turn);
+	Combo oldpile = new Combo(hand);
+	Combo newpile = new Combo(hand);
 	while(players.size()>1){
 	    /*let player choose cards and put it on pile, need something to loop around the turns and let the player use pass(), need something to tell which player actually won, stops when there is only 1 player left
 	     */
@@ -57,19 +60,20 @@ public class BigTwo {
 		    System.out.print("Play: ");
 		    int index = scanner.nextInt();
 		    if(input.equals("enter")||input.equals("play")){
-			newpile = new Combo(hand, turn);
-			if(newpile.compareTo(oldpile)>0)
+			newpile = new Combo(hand);
+			if(newpile.beats(oldpile)||freeturn)
 			    oldpile = newpile;
 			else
 			    System.out.println("Invalid input");
 		    }
-		    if(index<players.get(turn).size()){
+		    else if (index<players.get(turn).size()){
 			hand.add(players.get(turn).get(index));
 		    }
 		}
 	    }
 
 	    turn++;
+	    freeturn=false;
 	}
 
     }

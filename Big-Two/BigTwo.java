@@ -26,53 +26,60 @@ public class BigTwo {
     
 
     public void play(){
-	int turn = players.findLowest();
-	System.out.println("Player "+(1+turn)+"'s turn!");
-	System.out.println("Your hand: ");
-	System.out.println(players.get(turn));
-	System.out.println("
-	Scanner scanner = new Scanner(System.in); 
-	String input = scanner.next();
-	
-		
-	Combo oldpile = new Combo(hand, turn);//combo of the 1st player with diamond 3
+	int turn = this.findLowest();
+	ArrayList<Card> hand = new ArrayList<Card>();
+	//combo of the 1st player with diamond 3	
+	Combo oldpile = new Combo(hand, turn);
+	Combo newpile = new Combo(hand, turn);
 	while(players.size()!=1){
 	    /*let player choose cards and put it on pile, need something to loop around the turns and let the player use pass(), need something to tell which player actually won, stops when there is only 1 player left
 	     */
+
+	    System.out.println("Player "+(1+turn)+"'s turn!");
+	    System.out.print("Your hand: ");
+	    System.out.println(players.get(turn));
+
+	    Scanner scanner = new Scanner(System.in); 
 	    String input = scanner.next();
 	    if(input.equals("pass"))
 		pass();
-	    else
-		//use input to put out cards
-		ArrayList<Card> hand = new ArrayList<Card>();
-	    for(int i=0;i<;i++)//add stuff from imput to hand
-		hand.add(player.get(turn).get(i));
-	    Combo newpile = new Combo(hand,turn);
-	    if(newpile.compareTo(oldpile)>0)
-		oldpile = newpile;
-	    else
-			
-		turn++;
+	    else {
+		for(int i=0;i<6;i++){
+		    System.out.print("Play: ");
+		    String index = scanner.next();
+		    if(input.equals("enter")||input.equals("play")){
+			if(newpile.compareTo(oldpile)>0)
+			    oldpile = newpile;
+			else
+			    System.out.println("Invalid input");
+		    }
+		    if(Integer.parseInt(index)<players.get(turn).size()){
+			hand.add(players.get(turn).get(Integer.parseInt(index)));
+		    }
+		}
+	    }
+	    turn++;
 	}
-
     }
-    
+	
+	
     private int findLowest(){
-	Card lowest = new Card(2,4)
-	int minindex;
+	Card lowest = new Card(2,4);
+	int minindex=0;
 	for(int x = 0; x < players.size(); x++){
 	    Combo.sort(players.get(x));
 	    if(players.get(x).get(0).compareTo(lowest) <= 0){
 		lowest = players.get(x).get(0);
 		minindex = x;
 	    }
+	}
 	return minindex;
     }
-
-	public void pass() {
+    
+    public void pass() {
 	turn++;
     }
-
+    
     public static void main(String args[]) {
 	Scanner scanner = new Scanner(System.in);
 	System.out.print("Number of Players: ");

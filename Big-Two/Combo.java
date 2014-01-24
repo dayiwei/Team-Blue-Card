@@ -31,7 +31,7 @@
    		playernum = player;
    		if(!(validate(input)==true)){
    			type = "Invalid";
-   			value = -1;
+   			value = null;
    		}
    		else {
    			sort(input);
@@ -49,9 +49,9 @@
    			}
    			else if (bomb(input)){
    				if(input.get(0).getV()==(input.get(1).getV()))
-   					value = input.get(0)
+				    value = input.get(0);
    				else
-   					value = input.get(1);
+				    value = input.get(1);
    				type = "bomb";
    			}
    			else if (straight(input) && flush(input)){

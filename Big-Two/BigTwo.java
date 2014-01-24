@@ -54,15 +54,15 @@ public class BigTwo {
 	    else {
 		for(int i=0;i<6;i++){
 		    System.out.print("Play: ");
-		    String index = scanner.next();
+		    int index = scanner.nextInt();
 		    if(input.equals("enter")||input.equals("play")){
 			if(newpile.compareTo(oldpile)>0)
 			    oldpile = newpile;
 			else
 			    System.out.println("Invalid input");
 		    }
-		    if(Integer.parseInt(index)<players.get(turn).size()){
-			hand.add(players.get(turn).get(Integer.parseInt(index)));
+		    if(index<players.get(turn).size()){
+			hand.add(players.get(turn).get(index));
 		    }
 		}
 	    }

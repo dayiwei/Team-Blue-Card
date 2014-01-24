@@ -27,6 +27,67 @@ public class Card implements Comparable{
 	public int getS(){
 		return suit;
 	}
+	public String stringS(){
+		if(suit == 1){
+			return "Diamond";
+		}
+		else if(suit == 2){
+			return "Club";
+		}
+		else if(suit == 3){
+			return "Heart";
+		}
+		else if(suit == 4){
+			return "Spade";
+		}
+		else {
+			return null;
+		}
+	}
+	public String stringV(){
+		if(value == 1){
+			return "Ace";
+		}
+		else if(value == 2){
+			return "Deuce";
+		}
+		else if(value == 3){
+			return "Three";
+		}
+		else if(value == 4){
+			return "Four";
+		}
+		else if(value == 5){
+			return "Five";
+		}
+		else if(value == 6){
+			return "Six";
+		}
+		else if(value == 7){
+			return "Seven";
+		}
+		else if(value == 8){
+			return "Eight";
+		}
+		else if(value == 9){
+			return "Nine";
+		}
+		else if(value == 10){
+			return "Ten";
+		}
+		else if(value == 11){
+			return "Jack";
+		}
+		else if(value == 12){
+			return "Queen";
+		}
+		else if(value == 13){
+			return "King";
+		}
+		else{
+			return null;
+		}
+	}
 	public int compareTo(Object x){
 		int ipower = ((Card) x).power();
 		if (power() > ipower){
@@ -49,22 +110,7 @@ public class Card implements Comparable{
 		return suit == ((Card)x).suit && value == ((Card)x).value;
 	}
 	public String toString(){
-		String s = "";
-		if (value == 1){
-			s += "Ace";
-		}
-		else if (value == 11){
-			s += "Jack";
-		}
-		else if (value == 12){
-			s += "Queen";
-		}
-		else if (value == 13){
-			s += "King";
-		}
-		else{
-			s += value;
-		}
+		String s = stringV();
 		s += " of ";
 		if (suit == 1){
 			s += "Diamonds";

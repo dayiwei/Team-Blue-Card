@@ -78,7 +78,7 @@
    		return value;
    	}
 
-   	public boolean compareTo(Combo x) {
+   	public int compareTo(Combo x) {
    		if (value.compareTo(x.getCV())>0)
    			return 1;
    		else if (value.compareTo(x.getCV())<0)

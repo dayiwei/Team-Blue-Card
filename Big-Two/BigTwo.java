@@ -4,8 +4,11 @@ import java.util.Scanner;
 public class BigTwo {
     ArrayList<ArrayList<Card>> players;
     int turn=0;
-    public BigTwo(int numplayers) {
+    int numplayers;
 
+    public BigTwo(int playernumb) {
+	players = new ArrayList<ArrayList<Card>>();
+	numplayers=playernumb;
 	ArrayList<Card> deck = new ArrayList<Card>();
 	for(int i=1;i<5;i++){
 	    for (int x=1; x<14;x++){
@@ -14,7 +17,8 @@ public class BigTwo {
 	    }
 	}
 	for(;numplayers != 0; numplayers--){
-	    players.add(new ArrayList<Card>());
+	    ArrayList<Card> x = new ArrayList<Card>();
+	    players.add(x);
 	}
 	while(deck.size() >= players.size()){
 	    for(ArrayList<Card> x : players){
@@ -23,18 +27,22 @@ public class BigTwo {
 	}
     }
 
+
+    public void pass() {
+	turn++;
+    }
     
 
     public void play(){
-	int turn = this.findLowest();
+	turn = findLowest();
 	ArrayList<Card> hand = new ArrayList<Card>();
 	//combo of the 1st player with diamond 3	
 	Combo oldpile = new Combo(hand, turn);
 	Combo newpile = new Combo(hand, turn);
-	while(players.size()!=1){
+	while(players.size()>1){
 	    /*let player choose cards and put it on pile, need something to loop around the turns and let the player use pass(), need something to tell which player actually won, stops when there is only 1 player left
 	     */
-
+	    turn = turn%numplayers;
 	    System.out.println("Player "+(1+turn)+"'s turn!");
 	    System.out.print("Your hand: ");
 	    System.out.println(players.get(turn));
@@ -60,6 +68,7 @@ public class BigTwo {
 	    }
 	    turn++;
 	}
+
     }
 	
 	
@@ -76,17 +85,15 @@ public class BigTwo {
 	return minindex;
     }
     
-    public void pass() {
-	turn++;
-    }
     
     public static void main(String args[]) {
 	Scanner scanner = new Scanner(System.in);
 	System.out.print("Number of Players: ");
-	int numplayers = Integer.parseInt(scanner.next());
+	int numplayers = scanner.nextInt();
+	System.out.println(numplayers);
 
 	BigTwo game = new BigTwo(numplayers);
 	game.play();
     }
-
+    
 }

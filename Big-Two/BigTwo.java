@@ -38,11 +38,12 @@ public class BigTwo {
 
     public void play(){
 	turn = findLowest();
+	int oldnum = players.size();
 	ArrayList<Card> hand = new ArrayList<Card>();
 	//combo of the 1st player with diamond 3	
 	Combo oldpile = new Combo(hand);
 	Combo newpile = new Combo(hand);
-	while(players.size()>1){
+	while(players.size()!=1){
 	    /*let player choose cards and put it on pile, need something to loop around the turns and let the player use pass(), need something to tell which player actually won, stops when there is only 1 player left
 	     */
 	    turn = turn%numplayers;
@@ -58,16 +59,16 @@ public class BigTwo {
 	    else {
 		for(int i=0;i<6;i++){
 		    System.out.print("Play: ");
-		    int index = scanner.nextInt();
+		    String index = scanner.next();
 		    if(input.equals("enter")||input.equals("play")){
 			newpile = new Combo(hand);
-			if(newpile.beats(oldpile)||freeturn)
+			if(newpile.beats(oldpile)||(freeturn))
 			    oldpile = newpile;
 			else
 			    System.out.println("Invalid input");
 		    }
-		    else if (index<players.get(turn).size()){
-			hand.add(players.get(turn).get(index));
+		    else if(Integer.parseInt(index)<players.get(turn).size()){
+			hand.add(players.get(turn).get(Integer.parseInt(index)));
 		    }
 		}
 	    }
@@ -75,6 +76,7 @@ public class BigTwo {
 	    turn++;
 	    freeturn=false;
 	}
+	// System.out.println("player " + turn +"won!");
 
     }
 	

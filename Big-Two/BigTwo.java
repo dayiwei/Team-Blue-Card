@@ -42,13 +42,24 @@ public class BigTwo {
 	//combo of the 1st player with diamond 3	
 	Combo oldpile = new Combo(hand);
 	Combo newpile = new Combo(hand);
+	
 	while(players.size()!=1){
-	    /*let player choose cards and put it on pile, need something to loop around the turns and let the player use pass(), need something to tell which player actually won, stops when there is only 1 player left
-	     */
+	    //let player choose cards and put it on pile, need something to loop around the turns and let the player use pass(), need something to tell which player actually won, stops when there is only 1 player left
+
 	    turn = turn%numplayers;
+	    if(players.get(turn).size()==0){
+    	        System.out.println("Player " + (1+turn)+"Won");
+    		turn++   
+	    }
+    	    
 	    System.out.println("Player "+(1+turn)+"'s turn!");
-	    System.out.println("Hand to beat :");
-	    System.out.println(oldpile);
+	        if(freeturn) {
+		    System.out.println("Free turn");
+	        }
+		else {
+	    	    System.out.println("Hand to beat :");
+	            System.out.println(oldpile);
+		}
 	    System.out.print("Your hand: ");
 	    System.out.println(players.get(turn));
 
@@ -57,24 +68,27 @@ public class BigTwo {
 	    for(int i=0;i<6;i++){
 		System.out.print("Play: ");
 		String input = scanner.next();
-		if(input.equals("yes"))
+		if(input.equals("pass"))
 		    pass();
-		if(input.equals("enter")||input.equals("play")){
+		else if(input.equals("enter")||input.equals("play")){
 		    newpile = new Combo(hand);
 		    if(freeturn||newpile.beats(oldpile)){
 			oldpile = newpile;
 			break;
 		    }
-		    else
-			System.out.println("Invalid input");
+		    else {
+			System.out.println("Invalid input\n" + "Please choose your cards again");
+			i--;
+			
+		    }
 		}
 		else
-		    if(Integer.parseInt(input)<players.get(turn).size()){
-			hand.add(players.get(turn).get(Integer.parseInt(input)));
+		    if(Integer.parseInt(input)-1<players.get(turn).size()){
+			hand.add(players.get(turn).get(Integer.parseInt(input))-1);
 		    }
 	    }
 	    turn++;
-	    freeturn=false;
+	    freeturn=false;	
 	}
     }
     // System.out.println("player " + turn +"won!");

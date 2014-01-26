@@ -19,7 +19,6 @@
 
    Straight Flush: A composite of the straight and flush: five cards in sequence in the same suit. Ranked the same as straights, suit being a tie-breaker. (Sometimes also played as a bomb or tiki, larger than a Four of a Kind)
 */
-
 import java.util.ArrayList;
 public class Combo{
 
@@ -36,10 +35,10 @@ public class Combo{
 	}
 	else {
 	    sort(cards);
-            if (cards.size() == 1){
+	    if (cards.size() == 1){
 		type = 1;
 		value = cards.get(0);
-            }
+	    }
 	    if (pair(cards)) {
 		type = 2;
 		value = cards.get(0);
@@ -65,7 +64,7 @@ public class Combo{
 	    else if (straightflush(cards)){
 		type = 8;
 		value = cards.get(4);
-	    }	
+	    }   
 	    else if (straight(cards)){
 		type = 4;
 		value = cards.get(4);
@@ -77,7 +76,9 @@ public class Combo{
 	}
 
     }
-   	
+    public ArrayList<Card> getCards(){
+	return cards;
+    }
     public int getCT() {
 	return type;
     }
@@ -94,7 +95,7 @@ public class Combo{
 				     house(input) ||
 				     bomb(input)
 				     )
-   		);
+		);
     }
 
     public static void sort(ArrayList<Card> input){
@@ -147,25 +148,56 @@ public class Combo{
 	}
 	return ret;
     }
-
-    private static boolean straight(ArrayList<Card> input){
-	if(input.size() != 5)
+    private static void rotatelist(ArrayList<Card> x){
+	for(int index = 0; index < (x.size() - 1); index++){
+	    x.set(index,x.set(index + 1,x.get(index)));
+	}
+    }
+    private static boolean correctorder(ArrayList<Card> input){
+	int value = input.get(0).getV();
+	if (11 >= value && value >= 13){
 	    return false;
-
-	sort(input);
-	boolean ret = true;
-	for(int x = 1; x < input.size() ; x++){
-	    int currentvalue = input.get(0).getV() + x;
-	    if (currentvalue == 14){
-		currentvalue = 1;
+	}
+	for(Card x : input){
+	    if(!(value == x.getV())){
+		return false;
 	    }
-	    if(! (currentvalue == input.get(x).getV())){
-		ret = false;
+	    value++;
+	    if (value == 14){
+		value = 1;
 	    }
 	}
-	return ret;
+	return true;
     }
+    private static boolean straight(ArrayList<Card> input){
+	sort(input);
+	for(int count = 0;count < 5;count++){
+	    if(correctorder(input)){
+		return true;
+	    }
+	    rotatelist(input);
+	}
+	return false;
+    }
+    /*
+      private static boolean straight(ArrayList<Card> input){
+      if(input.size() != 5)
+      return false;
 
+      sort(input);
+      boolean ret = true;
+      for(int x = 1; x < input.size() ; x++){
+      int currentvalue = input.get(0).getV() + x;
+      if (currentvalue == 14){
+      currentvalue = 1;
+      }
+      if(! (currentvalue == input.get(x).getV())){
+      ret = false;
+      }
+      }
+      return ret;
+      }
+    */
     private static boolean house(ArrayList<Card> input) {
 	if(input.size()!=5)
 	    return false;
@@ -211,56 +243,56 @@ public class Combo{
     }
     public boolean beats(Combo x){
 	if (type == x.type){
-            if (value.compareTo(x.value) > 0){
+	    if (value.compareTo(x.value) > 0){
 		return true;
-            }
+	    }
 	}
 	if (type > 3 && type > x.type){
-            return true;
+	    return true;
 	}
 	return false;
     }
     public String toString(){
 	String retStr;
 	if (type == 1){
-            retStr= value.toString();
+	    retStr= value.toString();
 	}
 	else if (type == 2){
-            if (value.getV() == 6){
+	    if (value.getV() == 6){
 		retStr= "Pair of " + value.stringV() + "es";
-            }
+	    }
 	    else
 		retStr= "Pair of " + value.stringV() + "s";
 	}
 	else if (type == 3){
-            if (value.getV() == 6){
+	    if (value.getV() == 6){
 		retStr= "Triple " + value.stringV() + "es";
-            }
+	    }
 	    else
 		retStr= "Triple " + value.stringV() + "s";
 	}
 	else if (type == 4){
-            retStr= "Straight to " + value; 
+	    retStr= "Straight to " + value; 
 	}
 	else if (type == 5){
-            retStr= value.stringS() + " Flush " + "(" + value + " high)";
+	    retStr= value.stringS() + " Flush " + "(" + value + " high)";
 	}
 	else if (type == 6){
-            if (value.getV() == 6){
+	    if (value.getV() == 6){
 		retStr= "House of " + value.stringV() + "es";
-            }
+	    }
 	    else
 		retStr= "House of  " + value.stringV() + "s";
 	}
 	else if (type == 7){
-            retStr= value.stringV() + " Bomb";
+	    retStr= value.stringV() + " Bomb";
 	}
 	else if (type == 8){
-            retStr= "Straight Flush to " + value;
+	    retStr= "Straight Flush to " + value;
 	}
 	else
 	    retStr= null;
-	return retStr+"("+cards.get(cards.size()-1).stringS()+")";
+	return retStr;
     }
     public static void main(String[] args){
 	ArrayList<Card> hand = new ArrayList<Card>();
@@ -272,13 +304,10 @@ public class Combo{
 	System.out.println("Combo of hand: " + new Combo(hand));
 	System.out.println("Same value of hand: " + flush(hand));
 	hand = new ArrayList<Card>();
-	for(int x = 14;x >= 10;x--){
+	for(int x = 1;x <= 5;x++){
 	    hand.add(new Card(x,4));	
 	}
 	System.out.println("Current hand: " + hand);
-	sort(hand);
-	System.out.println("Combo of hand: " + new Combo(hand));
-	System.out.println("Sorted hand: " + hand);
 	System.out.println("Same suit of hand: " + sameSuit(hand));
 	System.out.println("Straight of hand: " + straight(hand));
 	System.out.println("Straight Flush of hand: " + straightflush(hand));
@@ -291,7 +320,7 @@ public class Combo{
 	System.out.println("Current hand: " + hand);
 	System.out.println("Combo of hand: " + new Combo(hand));
 	System.out.println("Bomb of hand: " + bomb(hand));
-   		
+		
 	ArrayList<Card> hand2 = new ArrayList<Card>();
 	hand2.add(new Card(3,4));
 	hand2.add(new Card(3,1));
@@ -304,5 +333,10 @@ public class Combo{
 	System.out.println("Current hand: "+ hand2);
 	System.out.println(new Combo(hand) + " beats " + new Combo(hand2) + ": " + (new Combo(hand)).beats(new Combo(hand2)));
 	System.out.println(new Combo(hand2) + " beats " + new Combo(hand) + ": " + (new Combo(hand2)).beats(new Combo(hand)));
-    }
+	hand = new ArrayList<Card>();
+	for(int x = 10;x <= 14;x++){
+	    hand.add(new Card(x,4));
+	}
+	System.out.println(new Combo(hand));
+    }	
 }

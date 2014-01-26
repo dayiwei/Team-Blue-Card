@@ -29,29 +29,29 @@ public class Combo{
 
     public Combo(ArrayList<Card> input) {
 	cards = input;
-	if(!(validate(input)==true)){
+	if(!(validate(cards)==true)){
 	    type = 0;
 	    value = null;
 	}
 	else {
-	    sort(input);
-            if (input.size() == 1){
+	    sort(cards);
+            if (cards.size() == 1){
 		type = 1;
-		value = input.get(0);
+		value = cards.get(0);
             }
-	    if (pair(input)) {
+	    if (pair(cards)) {
 		type = 2;
-		value = input.get(0);
+		value = cards.get(0);
 	    }
-	    else if (triple(input)){
+	    else if (triple(cards)){
 		type = 3;
-		value = input.get(0);
+		value = cards.get(0);
 	    }
-	    else if (house(input)) {
+	    else if (house(cards)) {
 		type = 6;
-		Card x = input.get(1);
+		Card x = cards.get(1);
 		int count = 0;
-		for(Card y : input){
+		for(Card y : cards){
 		    if (y.equalV(x)){
 			count++;
 		    }
@@ -60,25 +60,25 @@ public class Combo{
 		    value = x;
 		}
 		else {
-		    value = input.get(4);
+		    value = cards.get(4);
 		}
 	    }
-	    else if (bomb(input)){
-		if(input.get(0).getV()==(input.get(1).getV()))
-		    value = input.get(0);
+	    else if (bomb(cards)){
+		if(cards.get(0).getV()==(cards.get(1).getV()))
+		    value = cards.get(0);
 		else
-		    value = input.get(1);
+		    value = cards.get(1);
 		type = 7;
 	    }
-	    else if (straightflush(input)){
+	    else if (straightflush(cards)){
 		type = 8;
-		value = input.get(4);
+		value = cards.get(4);
 	    }	
-	    else if (straight(input)){
+	    else if (straight(cards)){
 		type = 4;
-		value = input.get(4);
+		value = cards.get(4);
 	    }
-	    else if (flush(input)){
+	    else if (flush(cards)){
 		type = 5;
 		value = input.get(4);
 	    }
@@ -225,40 +225,46 @@ public class Combo{
 	return false;
     }
     public String toString(){
+	String retStr;
 	if (type == 1){
-            return value.toString();
+            retStr= value.toString();
 	}
 	else if (type == 2){
             if (value.getV() == 6){
-		return "Pair of " + value.stringV() + "es";
+		retStr= "Pair of " + value.stringV() + "es";
             }
-            return "Pair of " + value.stringV() + "s";
+	    else
+		retStr= "Pair of " + value.stringV() + "s";
 	}
 	else if (type == 3){
             if (value.getV() == 6){
-		return "Triple " + value.stringV() + "es";
+		retStr= "Triple " + value.stringV() + "es";
             }
-            return "Triple " + value.stringV() + "s";
+	    else
+		retStr= "Triple " + value.stringV() + "s";
 	}
 	else if (type == 4){
-            return "Straight to " + value; 
+            retStr= "Straight to " + value; 
 	}
 	else if (type == 5){
-            return value.stringS() + " Flush " + "(" + value + " high)";
+            retStr= value.stringS() + " Flush " + "(" + value + " high)";
 	}
 	else if (type == 6){
             if (value.getV() == 6){
-		return "House of " + value.stringV() + "es";
+		retStr= "House of " + value.stringV() + "es";
             }
-            return "House of  " + value.stringV() + "s";
+	    else
+		retStr= "House of  " + value.stringV() + "s";
 	}
 	else if (type == 7){
-            return value.stringV() + " Bomb";
+            retStr= value.stringV() + " Bomb";
 	}
 	else if (type == 8){
-            return "Straight Flush to " + value;
+            retStr= "Straight Flush to " + value;
 	}
-	return null;
+	else
+	    retStr= null;
+	return retStr+"("+cards.get(cards.size()-1).stringS()+")";
     }
     public static void main(String[] args){
 	ArrayList<Card> hand = new ArrayList<Card>();

@@ -110,21 +110,7 @@ public class Card implements Comparable{
 		return suit == ((Card)x).suit && value == ((Card)x).value;
 	}
 	public String toString(){
-		String s = stringV();
-		s += " of ";
-		if (suit == 1){
-			s += "Diamonds";
-		}
-		else if (suit == 2){
-			s += "Clubs";
-		}
-		else if (suit == 3){
-			s += "Hearts";
-		}
-		else if (suit == 4){
-			s += "Spades";
-		}
-		return s;
+		return stringV() + " of " + stringS() + "s";
 	}
 	public static void main(String[] args){
 		Card a = new Card(3,1);

@@ -2,13 +2,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BigTwo {
-    ArrayList<ArrayList<Card>> players;
+    ArrayList<Player> players;
     int turn;
     int numplayers;
     boolean freeturn;
 
     public BigTwo(int playernumb) {
-	players = new ArrayList<ArrayList<Card>>();
+	players = new ArrayList<Player>();
 	numplayers=playernumb;
 	freeturn = true;
 	ArrayList<Card> deck = new ArrayList<Card>();
@@ -18,13 +18,13 @@ public class BigTwo {
 		deck.add(c);
 	    }
 	}
-	for(int i=numplayers;i != 0; i--){
-	    ArrayList<Card> x = new ArrayList<Card>();
-	    players.add(x);
+	for(int i=0;i< numplayers; i++){
+	    Player p = new Player("Player "+ (1+i));
+	    players.add(p);
 	}
 	while(deck.size() >= players.size()){
-	    for(ArrayList<Card> x : players){
-		x.add(deck.remove((int)(Math.random() * deck.size())));
+	    for(Player x : players){
+		x.addCard(deck.remove((int)(Math.random() * deck.size())));
 	    }
 	}
     }
@@ -39,27 +39,21 @@ public class BigTwo {
 	Combo oldpile = new Combo(hand);
 	Combo newpile = new Combo(hand);
 	
-	while(players.size()!=1){
+	while(players.size()>1){
 	    //let player choose cards and put it on pile, need something to loop around the turns and let the player use pass(), need something to tell which player actually won, stops when there is only 1 player left
 	    hand = new ArrayList<Card>();
 	    turn = turn%numplayers;
-	    if(players.get(turn).size()==0){
-    	        System.out.println("Player " + (1+turn)+"Won");
-    		turn++;
-		continue;
-	    }
     	    
-	    System.out.println("Player "+(1+turn)+"'s turn!");
+	    System.out.println(players.get(turn).getName()+"'s turn!");
 	    if(freeturn) {
 		System.out.println("Free turn");
-
 	    }
 	    else {
 		System.out.println("Hand to beat :");
 		System.out.println(oldpile);
 	    }
 	    System.out.print("Your hand: ");
-	    System.out.println(players.get(turn));
+	    System.out.println(players.get(turn).getHand());
 
 	    Scanner scanner = new Scanner(System.in); 
 
@@ -72,27 +66,34 @@ public class BigTwo {
 		}
 		else if(input.equals("enter")||input.equals("play")){
 		    newpile = new Combo(hand);
-		    if(freeturn||newpile.beats(oldpile)){
+		    if((freeturn && Combo.validate(hand)) || newpile.beats(oldpile)){
 			oldpile = newpile; 
 			freeturn=false;
-			continue;
+			break;
 		    }
 		    else {
 			System.out.println("Invalid input\n" + "Please choose your cards again");
-			i--;
+			turn=turn+numplayers-1;
+			break;
 		    }
 		}
 		else
-		    if(Integer.parseInt(input)-1<players.get(turn).size()){
-			hand.add(players.get(turn).get(Integer.parseInt(input)-1));
+		    if(Integer.parseInt(input)-1<players.get(turn).getHand().size()){
+			hand.add(players.get(turn).getHand().get(Integer.parseInt(input)-1));
 		    }
 	    }
-	    players.get(turn).removeAll(hand);
-	    
+	    players.get(turn).getHand().removeAll(hand);
+	    if(players.get(turn).getHand().size()==0){
+    	        System.out.println("Player " + (1+turn)+" Won");
+		players.remove(turn);
+		freeturn=true;
+		numplayers--;
+	    }
 	    turn++;	
 	}
+
+	System.out.println("Fin");
     }
-    // System.out.println("player " + turn +"won!");
 
 	
 	
@@ -100,9 +101,9 @@ public class BigTwo {
 	Card lowest = new Card(2,4);
 	int minindex=0;
 	for(int x = 0; x < players.size(); x++){
-	    Combo.sort(players.get(x));
-	    if(players.get(x).get(0).compareTo(lowest) <= 0){
-		lowest = players.get(x).get(0);
+	    Combo.sort(players.get(x).getHand());
+	    if(players.get(x).getHand().get(0).compareTo(lowest) <= 0){
+		lowest = players.get(x).getHand().get(0);
 		minindex = x;
 	    }
 	}
@@ -119,7 +120,6 @@ public class BigTwo {
 	    System.out.print("Number of Players: ");
 	    numplayers = scanner.nextInt();
 	}
-	// System.out.println(numplayers);
 
 	BigTwo game = new BigTwo(numplayers);
 	game.play();

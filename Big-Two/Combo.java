@@ -28,8 +28,9 @@ public class Combo{
     private Card value;
 
     public Combo(ArrayList<Card> input) {
-	cards = input;
-	if(!(validate(cards)==true)){
+	cards=input;
+	sort(cards);
+	if(!(validate(cards))){
 	    type = 0;
 	    value = null;
 	}
@@ -49,19 +50,10 @@ public class Combo{
 	    }
 	    else if (house(cards)) {
 		type = 6;
-		Card x = cards.get(1);
-		int count = 0;
-		for(Card y : cards){
-		    if (y.equalV(x)){
-			count++;
-		    }
-		}
-		if (count == 3){
-		    value = x;
-		}
-		else {
+		if (cards.get(2) == cards.get(4))
 		    value = cards.get(4);
-		}
+		else 
+		    value = cards.get(2);
 	    }
 	    else if (bomb(cards)){
 		if(cards.get(0).getV()==(cards.get(1).getV()))
@@ -80,7 +72,7 @@ public class Combo{
 	    }
 	    else if (flush(cards)){
 		type = 5;
-		value = input.get(4);
+		value = cards.get(4);
 	    }
 	}
 
@@ -92,9 +84,9 @@ public class Combo{
     public Card getCV() {
 	return value;
     }
-    private static boolean validate(ArrayList<Card> input){
+    public static boolean validate(ArrayList<Card> input){
 	return (input.size() > 0 && (
-
+				     input.size()==1||
 				     pair(input) ||
 				     triple(input) ||
 				     straight(input) ||
@@ -149,7 +141,7 @@ public class Combo{
 	    return false;
 	boolean ret = true;
 	for(int x = 1;x<input.size();x++){
-	    if(!(input.get(x -1).equalV(input.get(x)))){
+	    if(!(input.get(x -1).equalS(input.get(x)))){
 		ret = false;
 	    }
 	}
@@ -175,6 +167,8 @@ public class Combo{
     }
 
     private static boolean house(ArrayList<Card> input) {
+	if(input.size()!=5)
+	    return false;
 	ArrayList<Integer> values = new ArrayList<Integer>();
 	for(Card a : input){
 	    if (! (values.contains(a.getV()))){
@@ -193,7 +187,9 @@ public class Combo{
 	return (count == 2 || count == 3);
     }
     private static boolean bomb(ArrayList<Card> input) {
-	ArrayList<Integer> values = new ArrayList<Integer>();
+	if(input.size()!=5)
+	    return false;
+	ArrayList values = new ArrayList();
 	for(Card a : input){
 	    if (! (values.contains(a.getV()))){
 		values.add(a.getV());
@@ -204,7 +200,7 @@ public class Combo{
 	}
 	int count = 0;
 	for(Card a : input){
-	    if (a.getV() == values.get(0).intValue()){
+	    if (a.getV() == values.get(0)){
 		count++;
 	    }
 	}

@@ -1,0 +1,197 @@
+Timeline of ChinesePoker
+
+Conception
+
+We picked Chinese Poker because it was
+something unique to ourselves. As popular as
+the game is here, there are no online versions
+or apps available to play this, so I assume
+it's relatively unknown elsewhere.
+
+----------------------------------------------
+Card.java
+
+We decided that in making a card game, the
+smartest idea was to start with the most basic
+object in a card game: the card. We made this
+class a Comparable because naturally, cards
+are comparable. This class went relatively
+unchanged throughout development.
+
+----------------------------------------------
+Combo.java
+
+This is where the obstacles began. The goal of
+Combo is to detect if a set of one to five
+cards is a valid playable hand, and to
+categorize that hand. Initially, we had a
+detector method that returned a String,
+telling what Combo(if any) the cards
+constituted. However, we later scrapped this 
+idea and made seperate methods for checking
+each individual type of Combo (described in 
+challenges), and a boolean-returning method
+for validating if the cards are a Combo.
+
+----------------------------------------------
+ChinesePoker.java
+
+We began the creation of the game. Initially,
+instead of having players, we just used an
+arraylist of arraylists of cards. Each player
+was represented in java as only a set of
+cards. However, an arraylist of cards only
+holds cards. It did not hold other
+essential information, so we made...
+
+----------------------------------------------
+Player.java
+
+Because each player was originally an
+ArrayList, we decided to keep the methods of
+ArrayList, and instead of writing a wrapper
+around ArrayList, we should just extend it.
+
+----------------------------------------------
+ChinesePoker.java --cont
+
+Setup methods were completed, then the method
+for the very first turn of the game, and then
+finally the methods for regular turns. We 
+then had to make special accomodations for 
+when a player wins, as per the rules of the
+Card game. Finally, the actual mechanics
+of the game were complete.
+
+----------------------------------------------
+Quality of life changes.
+
+While the game was complete, playable and
+winnable, it was undoubtedly a mess of words,
+numbers, and text. When Shein's friend was
+asked to play the game, he noted that the
+game needed at least SOME visuals.
+
+----------------------------------------------
+GraphicCards.java
+
+To add some flair to the game, we decided to
+add ASCII art for the cards. Fortunately,
+the first link on the Google search for ASCII
+cards was exactly what we needed. After some
+painstaking copy and pasting, we had working
+code for printing out each individual card.
+Now for a set of cards, multiple methods
+were created to deal with setting the cards
+side by side.
+
+----------------------------------------------
+ChinesePoker.java --cont again
+
+A major problem to this game was that we were
+trying to recreate a four-player game on one
+computer. To help remedy this, methods were
+added to "clear" the screen. After a player
+played his cards, the screen was cleared
+and the next player would have to hit enter
+to see his own cards. This made the game
+a bit more playable than before.
+
+----------------------------------------------
+             Obstacles Overcome
+
+Detecting a Straight.
+
+The rules for straights in Chinese poker are
+a bit arbitrary. A straight was any five cards
+with consecutive values, for example:
+
+3,4,5,6,7
+
+Detecting this sort of straight was simple.
+Simply sort the cards and, starting from the
+lowest, check if each card after is one 
+greater than the one behind it. However, the
+trouble was in detecting straights that
+wrapped around like:
+
+A,2,3,4,5
+
+Sorting this would result in this:
+
+3,4,5,A,2
+
+And then because an Ace is not one above a 5,
+this would be declared an invalid straight,
+even though this is completely playable.
+
+After much headache, Shein came up with a
+solution. First, the cards would be sorted,
+as usual.
+
+3,4,5,A,2
+
+Afterwards, a loop began that would be 
+repeated five times. In it, the cards were 
+each shifted one position. Resulting in:
+
+2,3,4,5,A
+
+Then,
+
+A,2,3,4,5
+
+The method would then detect that, in this
+order, the cards are a valid straight. Then
+the constructor could simply take the fifth
+card as a high card.
+
+----------------------------------------------
+Unresolved Issues
+
+Error Handling
+
+We did not get around to using and handling
+exceptions the java way. MOST errors are
+handled with loops. One would have to
+deliberately TRY in order to break the game.
+As long as instructions are followed, the
+game works fine.
+
+Screen Clearing
+
+Google said that java can send commands with
+Runtime.getRuntime().exec(). We needed this
+because we wanted to clear the screen after
+every turn, but after many attempts, this 
+function gave nothing but IOExceptions. 
+
+----------------------------------------------
+Cool Stuff Learned
+
+I learned a major difference between an Array
+and an ArrayList. In an array, you can
+directly change values.
+
+a[0] = 5;
+a[0] == 5;
+true
+
+However, the same is not true in an ArrayList
+
+a.get(0) = 5;
+a.get(0) == 5;
+false
+
+It seems that an arraylist only returns a 
+temporary copy of each index. They can only
+be altered through the set method. 
+
+----------------------------------------------
+               Lessons Learned
+
+To compartmentalize!
+
+Having multiple methods is more useful than
+one big one. Compartmentalizing allows us to
+alter one small part of our code and have the

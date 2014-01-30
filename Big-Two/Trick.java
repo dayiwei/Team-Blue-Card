@@ -20,14 +20,15 @@
    Straight Flush: A composite of the straight and flush: five cards in sequence in the same suit. Ranked the same as straights, suit being a tie-breaker. (Sometimes also played as a bomb or tiki, larger than a Four of a Kind)
 */
 import java.util.ArrayList;
-public class Combo{
+import java.util.Arrays;
+public class Trick{
 
 	private ArrayList<Card> cards;
 	private int type;
 	private Card value;
 
-	public Combo(ArrayList<Card> input) {
-		cards=input;
+	public Trick(ArrayList<Card> input) {
+		cards = input;
 		sort(cards);
 		if(!(validate(cards))){
 			type = 0;
@@ -39,7 +40,7 @@ public class Combo{
 				type = 1;
 				value = cards.get(0);
 			}
-			if (pair(cards)) {
+			else if (pair(cards)) {
 				type = 2;
 				value = cards.get(0);
 			}
@@ -76,6 +77,9 @@ public class Combo{
 		}
 
 	}
+	public Trick(Card[] input){
+		this(new ArrayList(Arrays.asList(input)));
+	}
 	public ArrayList<Card> getCards(){
 		return cards;
 	}
@@ -110,7 +114,7 @@ public class Combo{
 		}
 	}
 
-	private static boolean sameSuit(ArrayList<Card> input){
+	public static boolean sameSuit(ArrayList<Card> input){
 		boolean ret = true;
 		for(int x = 1;x<input.size();x++){
 			if(!(input.get(x -1).equalS(input.get(x)))){
@@ -222,7 +226,7 @@ public class Combo{
 	private static boolean straightflush(ArrayList<Card> input){
 		return (sameSuit(input) && straight(input));
 	}
-	public boolean beats(Combo x){
+	public boolean beats(Trick x){
 		if (type == x.type){
 			if (value.compareTo(x.value) > 0){
 				return true;
@@ -263,7 +267,7 @@ public class Combo{
 				retStr= "House of " + value.stringV() + "es";
 			}
 			else
-				retStr= "House of  " + value.stringV() + "s";
+				retStr= "House of " + value.stringV() + "s";
 		}
 		else if (type == 7){
 			retStr= value.stringV() + " Bomb";
@@ -272,7 +276,7 @@ public class Combo{
 			retStr= "Straight Flush to " + value;
 		}
 		else
-			retStr= null;
+			retStr = null;
 		return retStr;
 	}
 	public static void main(String[] args){
@@ -282,7 +286,7 @@ public class Combo{
 			hand.add(new Card(1,x));
 		}
 		System.out.println("Current hand: " + hand);
-		System.out.println("Combo of hand: " + new Combo(hand));
+		System.out.println("Trick of hand: " + new Trick(hand));
 		System.out.println("Same value of hand: " + flush(hand));
 		hand = new ArrayList<Card>();
 		for(int x = 1;x <= 5;x++){
@@ -299,7 +303,7 @@ public class Combo{
 		hand.add(new Card(1,4));
 		hand.add(new Card(2,2));
 		System.out.println("Current hand: " + hand);
-		System.out.println("Combo of hand: " + new Combo(hand));
+		System.out.println("Trick of hand: " + new Trick(hand));
 		System.out.println("Bomb of hand: " + bomb(hand));
 
 		ArrayList<Card> hand2 = new ArrayList<Card>();
@@ -309,15 +313,18 @@ public class Combo{
 		hand2.add(new Card(4,1));
 		hand2.add(new Card(4,2));
 		System.out.println("Current hand: "+ hand2);
-		System.out.println("Combo of hand: " + new Combo(hand2));
+		System.out.println("Trick of hand: " + new Trick(hand2));
 		System.out.println("Is house? " + house(hand2));
 		System.out.println("Current hand: "+ hand2);
-		System.out.println(new Combo(hand) + " beats " + new Combo(hand2) + ": " + (new Combo(hand)).beats(new Combo(hand2)));
-		System.out.println(new Combo(hand2) + " beats " + new Combo(hand) + ": " + (new Combo(hand2)).beats(new Combo(hand)));
+		System.out.println(new Trick(hand) + " beats " + new Trick(hand2) + ": " + (new Trick(hand)).beats(new Trick(hand2)));
+		System.out.println(new Trick(hand2) + " beats " + new Trick(hand) + ": " + (new Trick(hand2)).beats(new Trick(hand)));
 		hand = new ArrayList<Card>();
 		for(int x = 10;x <= 14;x++){
 			hand.add(new Card(x,4));
 		}
-		System.out.println(new Combo(hand));
+		System.out.println(new Trick(hand));
+		hand.clear();
+		hand.add(new Card(1,4));
+		System.out.println("An ace of spades:" + new Trick(hand));
 	}  
 }

@@ -206,7 +206,7 @@ public class Trick{
 	private static boolean bomb(ArrayList<Card> input) {
 		if(input.size()!=5)
 			return false;
-		ArrayList values = new ArrayList();
+		ArrayList<Integer> values = new ArrayList<Integer>();
 		for(Card a : input){
 			if (! (values.contains(a.getV()))){
 				values.add(a.getV());

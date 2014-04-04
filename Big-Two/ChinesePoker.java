@@ -162,7 +162,7 @@ public class ChinesePoker{
 			ArrayList<Card> cards = new ArrayList<Card>();
 			String[] input = s.next().split(",");
 			ArrayList<Integer> added = new ArrayList<Integer>();
-			if(twoOfSpadesClause(cards)){
+			if(twoOfSpadesClause(new Trick(cards))){
 				System.out.println("You cannot win with the Deuce of Spades!");
 			}
 			else if (!(input.length == 1 && Integer.parseInt(input[0]) == 0)){
@@ -195,12 +195,11 @@ public class ChinesePoker{
 		}
 	}
 	private boolean twoOfSpadesClause(Trick x){
-			ArrayList<Card> pcards = x.get(turn);
-			ArrayList<Card> tcards = x.getCards();
-			return (tcards.size() <= 2) && 
-			       (tcards.size() == pcards.size()) &&
-			       (tcards.contains(new Card(2,4)));
-		}
+		ArrayList<Card> pcards = players.get(turn);
+		ArrayList<Card> tcards = x.getCards();
+		return (tcards.size() <= 2) && 
+		       (tcards.size() == pcards.size()) &&
+		       (tcards.contains(new Card(2,4)));
 	}
 	private void turn(){
 		Scanner s = new Scanner(System.in);
@@ -231,7 +230,7 @@ public class ChinesePoker{
 						}
 					}
 				}
-				if(twoOfSpadesClause(cards)){
+				if(twoOfSpadesClause(new Trick(cards))){
 					System.out.println("You cannot win with the Deuce of Spades!");
 				}
 				else if(Trick.validate(cards) && (new Trick(cards).beats(topTrick))){
